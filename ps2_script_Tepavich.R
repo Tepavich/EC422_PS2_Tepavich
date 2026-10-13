@@ -63,3 +63,11 @@ unemp_recent_summary <- unemp_recent |>
     min_rate  = min(unemployment_rate,  na.rm = TRUE),
     max_rate  = max(unemployment_rate,  na.rm = TRUE)
   )
+
+unemp_top_increases <- slice_max(unemp, unemployment_rate_change, n = 5)
+unemp_top_decreases <- slice_min(unemp, unemployment_rate_change, n = 5)
+
+unemp_top_increases_no_covid <- slice_max(
+  filter(unemp, lubridate::year(date) != 2020), unemployment_rate_change, n = 5)
+unemp_top_decreases_no_covid  <- slice_min(
+  filter(unemp, lubridate::year(date) != 2020), unemployment_rate_change, n = 5)
