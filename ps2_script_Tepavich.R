@@ -71,3 +71,20 @@ unemp_top_increases_no_covid <- slice_max(
   filter(unemp, lubridate::year(date) != 2020), unemployment_rate_change, n = 5)
 unemp_top_decreases_no_covid  <- slice_min(
   filter(unemp, lubridate::year(date) != 2020), unemployment_rate_change, n = 5)
+
+ggplot(unemp, aes(x = date, y = unemployment_rate, color = region)) +
+  geom_line() +
+  labs(title = "Unemployment Rates by Region", x = "Date", y = "Unemployment Rate") +
+  theme_minimal()
+
+ggplot(unemp, aes(x = date, y = unemployment_rate, color = region)) +
+  facet_wrap(~ region) +
+  geom_line() +
+  labs(title = "Unemployment Rates by Region", x = "Date", y = "Unemployment Rate") +
+  theme_minimal()
+
+ggplot(unemp_summary, aes(x = fct_reorder(region, mean_rate), y = mean_rate, color = region)) +
+  geom_col() +
+  labs(title = "Mean Unemployment Rate by Region", x = "Region", 
+       y = "Mean Unemployment Rate") +
+  theme_minimal()
