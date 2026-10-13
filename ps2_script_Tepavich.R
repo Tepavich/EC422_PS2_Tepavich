@@ -88,3 +88,13 @@ ggplot(unemp_summary, aes(x = fct_reorder(region, mean_rate), y = mean_rate, col
   labs(title = "Mean Unemployment Rate by Region", x = "Region", 
        y = "Mean Unemployment Rate") +
   theme_minimal()
+
+ggplot(
+  bind_rows(unemp_top_increases_no_covid, unemp_top_decreases_no_covid), aes(x = date, y = unemployment_rate_change, color = region)) +
+  geom_point() +
+  labs(title = "Top Increases and Decreases in Unemployment Rate", x = "Date", 
+       y = "Change in Unemployment Rate") +
+  theme_minimal()
+#I plotted the top increases and decreases in the unemployment rate excluding Covid. 
+#I was curious to see which regions in which years were the most extreme changes in the unemployment rate.
+
