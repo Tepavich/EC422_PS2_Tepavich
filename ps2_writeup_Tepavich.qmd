@@ -95,8 +95,8 @@ unemp_top_decreases_no_covid  <- slice_min(
 
 library(knitr)
 
-kable(unemp_summary, col.names = c("region", "mean rate", "min rate", "max rate"))
-kable(unemp_recent_summary)
-kable(unemp_top_increases_no_covid)
-kable(unemp_top_decreases_no_covid)
+kable(unemp_summary, col.names = c("region", "mean rate", "min rate", "max rate"), caption = "Unemployment Rate Summary")
+kable(unemp_recent_summary, col.names = c("region", "mean rate", "min rate", "max rate"), caption = "Unemployment Rate Summary Since January 2015")
+kable(unemp_top_increases_no_covid, caption = "Top Increases in the Unemployment rate excluding 2020")
+kable(unemp_top_decreases_no_covid, caption = "Top Decreases in the Unemployment rate excluding 2020")
 ```
