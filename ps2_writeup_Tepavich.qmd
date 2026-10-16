@@ -6,33 +6,24 @@ format:
   html: 
     toc: true
     embed-resources: true
+execute:
+  error: false
+  warning: false
 editor: visual
 ---
 
 ## **GitHub repo:** <https://github.com/Tepavich/EC422_PS2_Tepavich.git>
 
-##Data
+### Data
 
 ```{r}
 ## Data: monthly unemployment rate data from the US, Oregon, California, Texas, and New York since 1976 from FRED
-library(tidyquant)
 library(tidyverse)
-unemp_raw <- tq_get(
-  c("UNRATE", "ORUR", "CAUR", "TXUR", "NYUR"),
-  get  = "economic.data",
-  from = "1976-01-01"
-)
-
+unemp_raw <- read_rds("data/unemp_raw.rds")
 head(unemp_raw)
-
-dir.create("data", showWarnings = FALSE)
-
-write_rds(unemp_raw, "data/unemp_raw.rds")
-
-unemp_raw = read_rds("data/unemp_raw.rds")
 ```
 
-##Wrangling
+### Wrangling
 
 ```{r}
 ## Wrangling:
@@ -100,3 +91,38 @@ kable(unemp_recent_summary, col.names = c("region", "mean rate", "min rate", "ma
 kable(unemp_top_increases_no_covid, caption = "Top Increases in the Unemployment rate excluding 2020")
 kable(unemp_top_decreases_no_covid, caption = "Top Decreases in the Unemployment rate excluding 2020")
 ```
+
+### Visualization
+
+```{r}
+## Visualization:
+ggplot(unemp, aes(x = date, y = unemployment_rate, color = region)) +
+  geom_line() +
+  labs(title = "Unemployment Rates by Region", x = "Date", y = "Unemployment Rate") +
+  theme_minimal()
+
+ggplot(unemp, aes(x = date, y = unemployment_rate, color = region)) +
+  facet_wrap(~ region) +
+  geom_line() +
+  labs(title = "Unemployment Rates by Region", x = "Date", y = "Unemployment Rate") +
+  theme_minimal()
+
+ggplot(unemp_summary, aes(x = fct_reorder(region, mean_rate), y = mean_rate, color = region)) +
+  geom_col() +
+  labs(title = "Mean Unemployment Rate by Region", x = "Region", 
+       y = "Mean Unemployment Rate") +
+  theme_minimal()
+
+ggplot(
+  bind_rows(unemp_top_increases_no_covid, unemp_top_decreases_no_covid), aes(x = date, y = unemployment_rate_change, color = region)) +
+  geom_point() +
+  labs(title = "Top Increases and Decreases in Unemployment Rate", x = "Date", 
+       y = "Change in Unemployment Rate") +
+  theme_minimal()
+#I plotted the top increases and decreases in the unemployment rate excluding Covid. 
+#I was curious to see which regions in which years were the most extreme changes in the unemployment rate.
+```
+
+### Reflection
+
+Most of the code was pretty straight forward to follow. There were a couple times that I got error messages and I had to do some trouble shooting with AI to figure out what I was doing wrong. I am definitely more comfortable with some of the basic mechanics of R such as piping as well as just some general formatting things.
